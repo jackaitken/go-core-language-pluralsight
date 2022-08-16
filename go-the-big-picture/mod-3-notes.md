@@ -37,4 +37,58 @@ Now looking at both of these lines by themselves like this, we can probably imag
 
 These operators do significantly different things, and it can add issues to our code. 
 
-So the problem here is that, the increment and decrement expressions in many languages are easily misinterpreted. ==Go fixes this by changing increment and decrement operators from expressions to statements==.
+So the problem here is that, the increment and decrement expressions in many languages are easily misinterpreted. **Go fixes this by changing increment and decrement operators from expressions to statements**. The key difference between an expression and a statement is:
+
+**Statement**
+A statement is evaluated entirely as one unit
+
+**Expression**
+An expression is a component of a statement
+
+So then the valid Go representation of our code above is this:
+
+```go
+1 := 1
+i++
+println(i) // 2
+i++
+println(i) // 3
+```
+
+So we still initalize our variable, then separately, we increment our variable, then we print out the value of that variable.
+
+Not only is this easier to read, but in fact we are not allowed to write Go as we tried above because `i` cannot be incremented as part of a larger statement. *If we're going to use an increment operation, then that **is** the statment*. 
+
+So, this does of course involve more lines of code, but it comes at the advantage of knowing exactly what the intention of this code is.
+
+We can see another example of Go's simplicity in how it handle looping constructs.
+
+```go
+// loop with incrementor
+for i:= 0; i < 5; i++ ...
+```
+
+This is similar to a lot of the loops that we see in other languages
+
+```go
+// loop until condition
+for i < 5 ...
+```
+
+This is a for loop as well, but all we have here is a condition, and we just test for that condition. Once that condition is met then we exit
+
+```go
+// infinite loop
+for ...
+```
+
+This accomplishes the same thing as `while (true)` in other languages, expect we don't need anything more than just the `for` keyword.
+
+```go
+//loop over a collection
+for user := range users ...
+```
+
+Here we just use a for loop again to loop over a collection, but we use a variable that is easy to read.
+
+So this is all to say that **all loops in Go are for loops**.

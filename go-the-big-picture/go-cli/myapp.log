@@ -1,0 +1,13 @@
+2006-08-16 12:02:10,237 - INFO - Attempting to connect to data souce
+2006-08-16 12:02:11,237 - WARNING - Failed to connect to datasource "mydatasource"
+2006-08-16 12:02:12,237 - INFO - Attempting to reconnect to "mydatasource"
+2006-08-16 12:02:13,237 - INFO - Connection to "mydatasource" succeeded
+2006-08-16 12:02:47,237 - INFO - MyApp started listening on port 8080
+2006-08-16 12:07:10,237 - ERROR - Unable to process login request for user "user1"
+2006-08-16 12:08:10,237 - ERROR - Unable to process login request for user "user2"
+2006-08-16 12:09:10,237 - ERROR - Unable to process login request for user "user3"
+2006-08-16 12:09:11,237 - ERROR - Unable to process login request for user "user4"
+2006-08-16 12:10:10,237 - ERROR - Unable to process login request for user "user5"
+2006-08-16 12:11:09,237 - INFO - User with ID "user1" logged in
+2006-08-16 12:20:10,237 - INFO - User with ID "user2" logged in
+2006-08-16 12:22:10,237 - INFO - User with ID "user3" logged in

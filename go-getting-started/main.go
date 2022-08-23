@@ -1,13 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+const (
+	first  = iota + 6
+	second = iota + 2
+)
 
 func main() {
-	firstName := "Jack"
-
-	ptr := &firstName
-	fmt.Println(ptr, *ptr)
-
-	firstName = "Daphne"
-	fmt.Println(ptr, *ptr)
+	fmt.Println(first, second)
 }

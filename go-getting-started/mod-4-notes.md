@@ -171,6 +171,168 @@ So even if we change the value of `firstName`, we can see that the value changes
 
 ## Constants
 
+Like other languages, the main difference between constants and normal variables, is that constants are immutable.
 
+```go
+const pi = 3.1415
+pi = 1.2
+// error: cannot assign to pi
+```
 
+When we declare constants, we do have to give them an initial value, much like JavaScript. The other thing to be aware of is that **the value of a constant must be able to be determined at compile time**. So attempting to assign a constant to the value of a function return will not work since functions are not evaluated until the runtime in Go.
+
+Let's say that we do something like this:
+
+```go
+const c = 3
+fmt.Println(c + 3)
+
+fmt.Println(c + 1.2)
+// 6
+// 4.2
+```
+
+Now this works fine, but what is important to recognize is the way that Go is interpreting the type of `c`. When the first print statement is run, Go is interpreting `c` as an integer as we're adding an integer to the value of `c`. However, when the second print statement is running, Go will interpret `c` to be of type float, since we're add 1.2, a floating point integer, to the value of `c`. This is what's called an **implicitly typed constant**. The compiler is going to appropriately interpret the type each time it comes across it.
+
+However if we constrain `c` a bit more by setting its type upon initialization, we'll see an error:
+
+```go
+const c int = 3
+fmt.Println(c + 3)
+
+fmt.Println(c + 1.2)
+
+// error: constant 1.2 truncated to integer
+```
+
+This is because we can't add a floating point integer to an integer in Go. There need to be some type of explicit type coercion in order to make that work:
+
+```go
+const c int = 3
+fmt.Println(c + 3)
+
+fmt.Println(float32(c) + 1.2)
+// 6
+// 4.2
+```
+
+So this is all to say that if we just need to declare a constant and don't care as much what the type is, then we can just use the implicit type syntax. If the type of the constant does matter then we can set that explicity upon initialization.
+
+So normally, this would be the long and short of constants, but in Go, there is more than just that. Let's look at **iota's** and **constant expressions**. 
+
+In order to work with both of these, we need to pull our constants out of the `main` function we need to put these into the package level.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+const (
+    first = 1
+    second = "second"
+)
+
+func main() {
+    fmt.Println(first, second)
+}
+
+// 1 second
+```
+
+What we've done here is created a **constant block**. This scopes our constants to the entire package and can be used in a similar way that we might use the `import` block.
+
+Now what is interesting, is that we can change assignments of these constants to the keyword `iota`.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+const (
+    first = iota
+    second = iota
+)
+
+func main() {
+    fmt.Println(first, second)
+}
+
+// 0 1
+```
+
+So we can see that our output is `0` and `1`. Each time it is reused, `iota` will increment by 1. So this means that we can use `iota`s so that we can have constants whose values change. As it stands right now, what we have above is a *constant expression*. Using `iota` by itself is an example of a constant expression. So we could do something like this:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+const (
+    first = iota + 6
+    second = iota + 2
+)
+
+func main() {
+    fmt.Println(first, second)
+}
+
+// 6 3
+```
+
+So we can see here that the constant `first` was used once so its initial value: 0, was incremented by 6. The same thing happened with the constant `second`.
+
+We can also omit the `iota` that we declared with the constant `second`, since we've already declared a constant expression, and it will use the value of `first`.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+const (
+    first = iota + 6
+    second
+)
+
+func main() {
+    fmt.Println(first, second)
+}
+
+// 6 7
+```
+
+The same rules that we discussed with constant also apply to constant blocks. We can't set the value of a constant to the return value of a function.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+const (
+    first = iota
+    second
+)
+
+const (
+    third = iota
+    fourth
+)
+
+func main() {
+    fmt.Println(first, second, third, fourth)
+}
+
+// 0 1 0 1
+```
+
+Here is another interesting example of `iota`s. We can declare another constant block and assign it to `iota`, and *it will reset the value of `iota`*.
 

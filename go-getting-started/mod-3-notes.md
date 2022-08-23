@@ -143,4 +143,13 @@ First let's create a go module. At the root level of our directory, we're going 
 
 **A Go module is simply a directory in our harddrive that has a go.mod file**. 
 
-The `go mod init` command takes one more argument and that is the name of the module itself. 
+The `go mod init` command takes one more argument and that is the name of the module itself. So for this directory, we'll create a module at: `github.com/jackaitken/go-core-language-pluralsight/go-getting-started`.
+
+Now let's say that we've just created a simple Hello World application again. Of course we could just run `go run main.go`, but since we've created a module, we now have a new option. In our go.mod file, we created that module initializer. The `go` command recognizes our module declaration, so we can use that:
+
+```bash
+go run github.com/jackaitken/go-core-language-pluralsight/go-getting-started 
+
+> Hello World
+```
+

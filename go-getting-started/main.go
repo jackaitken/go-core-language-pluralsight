@@ -3,5 +3,11 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Hello World")
+	firstName := "Jack"
+
+	ptr := &firstName
+	fmt.Println(ptr, *ptr)
+
+	firstName = "Daphne"
+	fmt.Println(ptr, *ptr)
 }

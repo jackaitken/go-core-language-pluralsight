@@ -1,14 +1,13 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	slice := []int{1, 2, 3}
-	slice2 := slice[1:]
-	slice3 := slice[:2]
-	slice4 := slice[1:2]
+	u := models.User{
+		ID:        2,
+		FirstName: "Jack",
+		LastName:  "Aitken",
+	}
 
-	fmt.Println(slice, slice2, slice3, slice4)
+	fmt.Println(u)
 }

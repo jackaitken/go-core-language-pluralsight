@@ -140,5 +140,131 @@ Let's also talk a bit more about the colon operator that we used earlier to crea
     fmt.Println(slice, slice2, slice3, slice4)
     // [1 2 3] [2 3] [1 2] [2]
 ```
+## Maps
 
+Maps allow us to store keys with value types. With them, since we're working with two data types, we need to be a bit more verbose in our initialization of maps. Here is the short declaration syntax:
 
+```go
+m := map[string]int{"foo": 42}
+fmt.Println(m)
+fmt.Println(m["foo"])
+
+m["foo"] = 41
+fmt.Println(m["foo"])
+
+delete(m, "foo")
+fmt.Println(m)
+
+// map[foo:42]
+// 42
+// 41
+// map[]
+```
+
+With maps, we declare them using the `map` keyword. Then next to the `map` keyword we use square brackets to define our data type for our keys. Then next to that we set the data type of our values. So in this case above we're mapping strings to integers, strings being our keys, and integers being our values. Next to that we can also initialize our map with some information.
+
+Below that we printed out our map, and then we retrieve a specific value by passing in our key.
+
+After that we reassociated the key `foo` to another number, and printed that out as well.
+
+Then finally we use the `delete` function to delete a key, value pair from our map. `delete` takes two arguments, the map, and then the key that we want to delete.
+
+## Structs
+
+Struct's are the last collection type that we'll look at, and they're unique in that we're able to associate disparate data types together. With arrays and slices, our values had to be of a certain type. With maps, our keys had to be of one type, and our values had to be of one type. With a struct we can associate any type of data together, but the fields that we set in our struct are fixed at compile time and cannot be changed later in our program.
+
+With arrays and slices, we were able to define the types and initialize the values at the same time. With structs we don't have that same kind of flexibility. We need to define the struct in one step and then initialize it in a second step.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    type user struct {
+        ID int
+        FirstName string
+        LastName string
+    }
+
+    var u user
+    fmt.Println(u)
+
+    u.ID = 1
+    u.FirstName = "Jack"
+    u.LastName = "Aitken"
+    fmt.Println(u)
+
+    fmt.Println(u.FirstName)
+
+    u2 := user{ ID: 1, 
+        FirstName: "Jack", 
+        LastName: "Aitken",
+    }
+    fmt.Println(u2)
+
+    // {0  }
+    // {1 Jack Aitken}
+    // Jack
+    // {1 Jack Aitken}
+}
+
+```
+
+Here we've defined a type called `user` and the type of `user` is a struct. In our first print, we get a pretty boring result. This output indicates that our struct does exist. We have a `0`, and two blank spaces.
+
+What happens here is that when we initialize the variable `u`, each field is initialized to what's called its **zero value**. The zero value for an integer is a 0, the zero value for a string is the empty string. So our first print here, prints the struct, with the zero values for our fields.
+
+After that we use the dot syntax to set the values in the fields that we've defined, so that after, our fields have been initialized to some value. We can see that in our second print.
+
+We can also use the dot retrieve specific values from our struct, like maps.
+
+Now there is a shorter syntax that we can use to initialize our structs once they've been defined. We can see an example of this above. We can see that we have a trailing comma after our `LastName` field. This needs to be there because of Go' automatic colon insertion. With this multiline initialization syntax, if we don't have the trailing comma, Go will assume our last field (`LastName`), is the end of the statement, and it will add a semi-colon, so we'll get a compile time error:
+
+```go
+u2 := user{ ID: 1,
+    FirstName: "Jack",
+    LastName: "Aitken"
+    }
+
+fmt.Println(u2)
+
+// syntax error: unexpected newline, expecting comma or }
+```
+
+*A note on scoping*: In the previous example, we declared our struct in the `main` function. That means that we can only create objects of that type in that function. If we wanted to declare something outside of the main function, then we could also move it up to the package level.
+
+## Building out a web service
+
+Okay now we're going to turn our attention to a web service that we're building in our `main.go` file.
+
+One important piece of language. Everything within a directory that holds our `go.mod` file is called a **module**, and within a module we have **packages**, which are components that help to make up some concept within our module.
+
+Inside of our module, we created a package called `models`. Again, a package is just a directory. Inside of this directory, we created a file called `user.go` and specified the package name as `models`. It's important that the package name is the same as our directory name. 
+
+```go
+// models/user.go
+
+package models
+
+type User struct {
+	ID        int
+	FirstName string
+	LastName  string
+}
+
+var (
+	users []*User
+    nextID = 1
+)
+```
+
+So first we named our package `models`, and then we defined a struct called `User` at the package level. After that we declared some variables in a block.
+
+The first variable that we created is called `user`. It is a slice that contains pointers to `User` objects. The reason to use pointers, is that we're going to be able to manipulate these user objects throughout our program without having to copy that data in multiple places. 
+
+Then we declare a variable called `nextID`. This will serve the purpose of something like a primary key since we're not going to be using a database.
+
+Back in our `main.go` file we're going to use our `User` struct to create an object.

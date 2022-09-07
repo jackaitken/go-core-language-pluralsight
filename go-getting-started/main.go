@@ -1,11 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/jackaitken/go-core-language-pluralsight/go-getting-started/models/go-getting-started/models"
+)
 
 func main() {
 	u := models.User{
 		ID:        2,
-		FirstName: "Jack",
+		FirstName: "Arlo",
 		LastName:  "Aitken",
 	}
 

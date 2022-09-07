@@ -268,3 +268,28 @@ The first variable that we created is called `user`. It is a slice that contains
 Then we declare a variable called `nextID`. This will serve the purpose of something like a primary key since we're not going to be using a database.
 
 Back in our `main.go` file we're going to use our `User` struct to create an object.
+
+So now here is what our `main.go` file looks like:
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/jackaitken/go-core-language-pluralsight/go-getting-started/models/go-getting-started/models"
+)
+
+func main() {
+	u := models.User{
+		ID:        2,
+		FirstName: "Arlo",
+		LastName:  "Aitken",
+	}
+
+	fmt.Println(u)
+}
+```
+
+We import our models package, and then we're able to use it in our `main` package.
+

@@ -1,17 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
 
-	"github.com/jackaitken/go-core-language-pluralsight/go-getting-started/models/go-getting-started/models"
+	"github.com/jackaitken/go-core-language-pluralsight/go-getting-started/models/go-getting-started/controllers"
 )
 
 func main() {
-	u := models.User{
-		ID:        2,
-		FirstName: "Arlo",
-		LastName:  "Aitken",
-	}
-
-	fmt.Println(u)
+	controllers.RegisterControllers()
+	http.ListenAndServe(":3000", nil)
 }
